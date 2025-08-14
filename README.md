@@ -1,7 +1,6 @@
 <p align="center">
-  <a href="https://github.com/pashkov256/cmdpool"><img src="https://raw.githubusercontent.com/pashkov256/media/refs/heads/main/cmdpool/logo_v3.png" alt="cmdpool"></a>
+ <img src="https://raw.githubusercontent.com/pashkov256/media/refs/heads/main/cmdpool/cmdpool.svg"/>
 </p>
-
 <p align="center">
           <a><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT"></a>
         <a><img src="https://img.shields.io/badge/Go-1.21+-blue.svg" alt="Go"></a>
@@ -30,12 +29,6 @@
 - 📈 **Resource Monitoring**: Mini CPU/RAM graphs for each running command
 - ⏱️ **Execution Timer**: Track how long each command has been running
 - 🎯 **Search & Filter**: Search through logs using `/` like in less
-
----
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/pashkov256/media/refs/heads/main/cmdpool/cmdpool_demo.gif" alt="Project Banner" />
-</p>
 
 ## 🚀 Quick Start
 

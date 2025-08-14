@@ -20,7 +20,7 @@ type Command struct {
 	Output      []string
 	Error       error
 	StartTime   time.Time
-	EndTime    time.Time
+	EndTime     time.Time
 	Process     *os.Process
 	AutoRestart bool
 	mu          sync.RWMutex
@@ -71,7 +71,12 @@ func (e *Executor) RunCommands(commands []string) error {
 	return nil
 }
 
-// runCommand executes a single command
+// RunCommand executes a single command (public method)
+func (e *Executor) RunCommand(id, command, dir string, autoRestart bool) {
+	e.runCommand(id, command, dir, autoRestart)
+}
+
+// runCommand executes a single command (private implementation)
 func (e *Executor) runCommand(id, command, dir string, autoRestart bool) {
 	cmd := &Command{
 		ID:          id,
@@ -201,7 +206,7 @@ func (c *Command) addOutput(line string) {
 	c.mu.Lock()
 	defer c.mu.Unlock()
 	c.Output = append(c.Output, line)
-	
+
 	// Keep only last 1000 lines
 	if len(c.Output) > 1000 {
 		c.Output = c.Output[len(c.Output)-1000:]
@@ -217,7 +222,7 @@ func (c *Command) addErrorOutput(line string) {
 func (c *Command) GetOutput() []string {
 	c.mu.RLock()
 	defer c.mu.RUnlock()
-	
+
 	result := make([]string, len(c.Output))
 	copy(result, c.Output)
 	return result
@@ -227,7 +232,7 @@ func (c *Command) GetOutput() []string {
 func (e *Executor) GetCommands() map[string]*Command {
 	e.mu.RLock()
 	defer e.mu.RUnlock()
-	
+
 	result := make(map[string]*Command)
 	for k, v := range e.commands {
 		result[k] = v
@@ -240,7 +245,7 @@ func (e *Executor) StopCommand(id string) error {
 	e.mu.RLock()
 	cmd, exists := e.commands[id]
 	e.mu.RUnlock()
-	
+
 	if !exists {
 		return fmt.Errorf("command %s not found", id)
 	}
@@ -261,7 +266,7 @@ func (e *Executor) RestartCommand(id string) error {
 	e.mu.RLock()
 	cmd, exists := e.commands[id]
 	e.mu.RUnlock()
-	
+
 	if !exists {
 		return fmt.Errorf("command %s not found", id)
 	}
@@ -291,7 +296,7 @@ func (e *Executor) RestartCommand(id string) error {
 // Stop stops all running commands
 func (e *Executor) Stop() {
 	e.cancel()
-	
+
 	e.mu.RLock()
 	for _, cmd := range e.commands {
 		if cmd.Process != nil {
@@ -299,4 +304,4 @@ func (e *Executor) Stop() {
 		}
 	}
 	e.mu.RUnlock()
-} 
+}
