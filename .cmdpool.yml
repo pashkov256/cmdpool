@@ -1,0 +1,52 @@
+commands:
+  backend:
+    name: "Backend"
+    description: "Go backend server"
+    commands:
+      - "go run main.go"
+    dir: "./backend"
+    auto_restart: true
+    env:
+      - "GO_ENV=development"
+      - "PORT=8080"
+
+  frontend:
+    name: "Frontend"
+    description: "React development server"
+    commands:
+      - "npm run dev"
+    dir: "./frontend"
+    auto_restart: true
+    env:
+      - "NODE_ENV=development"
+
+  database:
+    name: "Database"
+    description: "PostgreSQL database"
+    commands:
+      - "docker compose up db"
+    dir: "./"
+    auto_restart: false
+
+  tests:
+    name: "Tests"
+    description: "Run all tests"
+    commands:
+      - "go test ./..."
+      - "npm test"
+    dir: "./"
+    auto_restart: false
+
+  monitoring:
+    name: "Monitoring"
+    description: "System monitoring tools"
+    commands:
+      - "htop"
+      - "docker stats"
+    dir: "./"
+    auto_restart: false
+
+global:
+  log_file: "cmdpool.log"
+  max_output_lines: 1000
+  refresh_rate_ms: 100
